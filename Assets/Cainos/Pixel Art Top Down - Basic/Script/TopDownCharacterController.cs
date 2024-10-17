@@ -110,5 +110,25 @@ namespace Cainos.PixelArtTopDown_Basic
                 }
             }
         }
+
+        //敵の攻撃を受けた時の処理
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            // 衝突したオブジェクトが "MonsterAttackTag" タグを持つ場合
+            if (collision.gameObject.CompareTag("MonsterAttackTag"))
+            {
+                playerHP -= 1;  // HPを1減らす
+
+                // HPが0になったらプレイヤーが死亡
+                if (playerHP <= 0)
+                {
+                    //死亡アニメーションの再生
+                    animator.SetTrigger("Death");
+
+                    // プレイヤーオブジェクトを廃棄
+                    //Destroy(gameObject, 1.0f);
+                }
+            }
+        }
     }
 }

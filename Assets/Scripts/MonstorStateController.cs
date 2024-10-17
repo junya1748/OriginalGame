@@ -19,6 +19,10 @@ public class MonstorStateController : MonoBehaviour
     //プレイヤー
     private GameObject player;
 
+    //アタックプレファブ
+    public GameObject monsterAttackPrefabLeft;
+    public GameObject monsterAttackPrefabRight;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +67,11 @@ public class MonstorStateController : MonoBehaviour
 
                         //攻撃アニメーション
                         animator.SetTrigger("Attack");
-                        
+
+                        // 右向きの攻撃プレファブを生成
+                        GameObject attack = Instantiate(monsterAttackPrefabRight);
+                        attack.transform.position = this.transform.position + new Vector3(0.3f, 0.5f, 0.0f);
+
                         //状態を2にする（攻撃）
                         stateNumber = 2;
                     }
@@ -106,6 +114,10 @@ public class MonstorStateController : MonoBehaviour
 
                         //攻撃アニメーション
                         animator.SetTrigger("Attack");
+
+                        // 左向きの攻撃プレファブを生成
+                        GameObject attack = Instantiate(monsterAttackPrefabLeft);
+                        attack.transform.position = this.transform.position + new Vector3(-0.3f, 0.5f, 0.0f);
 
                         //状態を2にする（攻撃）
                         stateNumber = 2;

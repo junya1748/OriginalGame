@@ -13961,6 +13961,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31240bc655aee451a8ffe2c331181ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterAttackPrefabLeft: {fileID: 2469494178436972542, guid: 5696998ca140043909fe7f2376fd17c7,
+    type: 3}
+  monsterAttackPrefabRight: {fileID: 9215231221478933844, guid: 3c596dec95fc245c79635f8500be6342,
+    type: 3}
 --- !u!1001 &660745077
 PrefabInstance:
   m_ObjectHideFlags: 0
