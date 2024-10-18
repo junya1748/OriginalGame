@@ -10733,18 +10733,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5865278, y: 0.36506104}
   m_EdgeRadius: 0
---- !u!114 &415953802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415953790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9601f7ed4161b4ab0bed109eab4fa708, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &420730628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17051,10 +17039,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 415953796}
-    - targetCorrespondingSourceObject: {fileID: 3671022009787552655, guid: 989ee924982594a748b41d56bdc61473,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 415953802}
   m_SourcePrefab: {fileID: 100100000, guid: 989ee924982594a748b41d56bdc61473, type: 3}
 --- !u!1001 &964724235
 PrefabInstance:
@@ -19635,7 +19619,7 @@ PrefabInstance:
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
@@ -19650,7 +19634,7 @@ PrefabInstance:
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
@@ -19675,12 +19659,12 @@ PrefabInstance:
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.9652503
+      value: 0.53
       objectReference: {fileID: 0}
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8.594927
+      value: 8.1
       objectReference: {fileID: 0}
     - target: {fileID: 2869088099946693840, guid: 25c5c0dfe589a4611951bbaaeee802a6,
         type: 3}
@@ -19716,6 +19700,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: EnemyTag
+      objectReference: {fileID: 0}
+    - target: {fileID: 8038428353084411211, guid: 25c5c0dfe589a4611951bbaaeee802a6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

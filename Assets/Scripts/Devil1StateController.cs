@@ -19,6 +19,10 @@ public class Devil1StateController : MonoBehaviour
     //プレイヤー
     private GameObject player;
 
+    //アタックプレファブ
+    public GameObject monsterAttackPrefabLeft;
+    public GameObject monsterAttackPrefabRight;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +68,22 @@ public class Devil1StateController : MonoBehaviour
                         //攻撃アニメーション
                         animator.SetTrigger("Attack");
 
+                        //向きを調べる
+                        if (this.transform.localScale.x > 0.0f)
+                        {
+                            //左向き
+                            GameObject attack = Instantiate(monsterAttackPrefabLeft);
+                            //座標のコピー（このスクリプトの位置）
+                            attack.transform.position = this.transform.position + new Vector3(-0.3f, 0.5f, 0.0f);
+                        }
+                        else
+                        {
+                            //右向き
+                            GameObject attack = Instantiate(monsterAttackPrefabRight);
+                            //座標のコピー（このスクリプトの位置）
+                            attack.transform.position = this.transform.position + new Vector3(0.3f, 0.5f, 0.0f);
+                        }
+
                         //状態を2にする（攻撃）
                         stateNumber = 2;
                     }
@@ -103,6 +123,22 @@ public class Devil1StateController : MonoBehaviour
 
                         //攻撃アニメーション
                         animator.SetTrigger("Attack");
+
+                        //向きを調べる
+                        if (this.transform.localScale.x > 0.0f)
+                        {
+                            //左向き
+                            GameObject attack = Instantiate(monsterAttackPrefabLeft);
+                            //座標のコピー（このスクリプトの位置）
+                            attack.transform.position = this.transform.position + new Vector3(-0.3f, 0.5f, 0.0f);
+                        }
+                        else
+                        {
+                            //右向き
+                            GameObject attack = Instantiate(monsterAttackPrefabRight);
+                            //座標のコピー（このスクリプトの位置）
+                            attack.transform.position = this.transform.position + new Vector3(0.3f, 0.5f, 0.0f);
+                        }
 
                         //状態を2にする（攻撃）
                         stateNumber = 2;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Devil2StateController : MonoBehaviour
+public class MonstorStateController : MonoBehaviour
 {
     //アニメーター
     Animator animator;
@@ -18,6 +18,10 @@ public class Devil2StateController : MonoBehaviour
 
     //プレイヤー
     private GameObject player;
+
+    //アタックプレファブ
+    public GameObject monsterAttackPrefabLeft;
+    public GameObject monsterAttackPrefabRight;
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +47,8 @@ public class Devil2StateController : MonoBehaviour
         {
             case 0:
                 {
-                    //最初は左に動く
-                    rb.velocity = new Vector2(-2.0f, rb.velocity.y);
+                    //最初は右に動く
+                    rb.velocity = new Vector2(2.0f, rb.velocity.y);
 
                     // プレイヤーと自分の X 相対値（絶対）
                     float horizontalDistance = Mathf.Abs(player.transform.position.x - this.transform.position.x);
@@ -64,6 +68,10 @@ public class Devil2StateController : MonoBehaviour
                         //攻撃アニメーション
                         animator.SetTrigger("Attack");
 
+                        // 右向きの攻撃プレファブを生成
+                        GameObject attack = Instantiate(monsterAttackPrefabRight);
+                        attack.transform.position = this.transform.position + new Vector3(0.3f, 0.5f, 0.0f);
+
                         //状態を2にする（攻撃）
                         stateNumber = 2;
                     }
@@ -74,8 +82,8 @@ public class Devil2StateController : MonoBehaviour
                         //クリア
                         timeCounter = 0.0f;
 
-                        //右を向く
-                        transform.localScale = new Vector3(1.5f, 1.5f, 0.0f);
+                        //左を向く
+                        transform.localScale = new Vector3(-1.5f, 1.5f, 0.0f);
 
                         //状態を1にする（次）
                         stateNumber = 1;
@@ -85,8 +93,8 @@ public class Devil2StateController : MonoBehaviour
 
             case 1:
                 {
-                    //右に動く
-                    rb.velocity = new Vector2(2.0f, rb.velocity.y);
+                    //左に動く
+                    rb.velocity = new Vector2(-2.0f, rb.velocity.y);
 
                     // プレイヤーと自分の X 相対値（絶対）
                     float horizontalDistance = Mathf.Abs(player.transform.position.x - this.transform.position.x);
@@ -107,6 +115,10 @@ public class Devil2StateController : MonoBehaviour
                         //攻撃アニメーション
                         animator.SetTrigger("Attack");
 
+                        // 左向きの攻撃プレファブを生成
+                        GameObject attack = Instantiate(monsterAttackPrefabLeft);
+                        attack.transform.position = this.transform.position + new Vector3(-0.3f, 0.5f, 0.0f);
+
                         //状態を2にする（攻撃）
                         stateNumber = 2;
                     }
@@ -117,8 +129,8 @@ public class Devil2StateController : MonoBehaviour
                         //クリア
                         timeCounter = 0.0f;
 
-                        //左を向く
-                        transform.localScale = new Vector3(-1.5f, 1.5f, 0.0f);
+                        //右を向く
+                        transform.localScale = new Vector3(1.5f, 1.5f, 0.0f);
 
                         //状態を0にする（ループ）
                         stateNumber = 0;
@@ -139,12 +151,12 @@ public class Devil2StateController : MonoBehaviour
                         //向きを調べる
                         if (this.transform.localScale.x > 0.0f)
                         {
-                            //状態を0にする（左移動ループ）
+                            //状態を0にする（右移動ループ）
                             stateNumber = 0;
                         }
                         else
                         {
-                            //状態を1にする（右移動ループ）
+                            //状態を1にする（左移動ループ）
                             stateNumber = 1;
                         }
                     }
