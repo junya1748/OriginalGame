@@ -39,6 +39,17 @@ public class Devil1StateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // プレイヤーのスクリプトからHPを取得する
+        TopDownCharacterController playerController = player.GetComponent<TopDownCharacterController>();
+
+        // プレイヤーが死亡したら、モンスターの行動を停止する
+        if (playerController != null && playerController.playerHP <= 0)
+        {
+            // モンスターの行動を停止する
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
         //タイム計測
         timeCounter += Time.deltaTime;
 
@@ -204,6 +215,9 @@ public class Devil1StateController : MonoBehaviour
 
             // 動きを完全に停止
             //rb.isKinematic = true;
+
+            //プレイヤーが管理している敵カウンターを減らす
+            player.GetComponent<TopDownCharacterController>().enemyCounter--;
 
             // オブジェクトを削除（0.5秒後に）
             Destroy(gameObject, 0.5f);

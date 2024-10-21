@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonstorStateController : MonoBehaviour
+public class Devil2StateController : MonoBehaviour
 {
     //アニメーター
     Animator animator;
@@ -39,6 +39,17 @@ public class MonstorStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // プレイヤーのスクリプトからHPを取得する
+        TopDownCharacterController playerController = player.GetComponent<TopDownCharacterController>();
+
+        // プレイヤーが死亡したら、モンスターの行動を停止する
+        if (playerController != null && playerController.playerHP <= 0)
+        {
+            // モンスターの行動を停止する
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
         //タイム計測
         timeCounter += Time.deltaTime;
 
@@ -47,61 +58,14 @@ public class MonstorStateController : MonoBehaviour
         {
             case 0:
                 {
-                    //最初は右に動く
-                    rb.velocity = new Vector2(2.0f, rb.velocity.y);
+                    //最初は左に動く
+                    rb.velocity = new Vector2(-2.0f, rb.velocity.y);
 
                     // プレイヤーと自分の X 相対値（絶対）
                     float horizontalDistance = Mathf.Abs(player.transform.position.x - this.transform.position.x);
 
                     // プレイヤーと自分の Y 軸相対距離（絶対）
                     float verticalDistance = Mathf.Abs(player.transform.position.y - this.transform.position.y);
-
-                    // プレイヤーが近いか？
-                    if (horizontalDistance < 2.0f && verticalDistance < 2.0f)
-                    {
-                        //クリア
-                        timeCounter = 0.0f;
-
-                        // 動きを止める
-                        rb.velocity = Vector2.zero;
-
-                        //攻撃アニメーション
-                        animator.SetTrigger("Attack");
-
-                        // 右向きの攻撃プレファブを生成
-                        GameObject attack = Instantiate(monsterAttackPrefabRight);
-                        attack.transform.position = this.transform.position + new Vector3(0.3f, 0.5f, 0.0f);
-
-                        //状態を2にする（攻撃）
-                        stateNumber = 2;
-                    }
-
-                    //１秒経過したか？
-                    if (timeCounter > 1.0f)
-                    {
-                        //クリア
-                        timeCounter = 0.0f;
-
-                        //左を向く
-                        transform.localScale = new Vector3(-1.5f, 1.5f, 0.0f);
-
-                        //状態を1にする（次）
-                        stateNumber = 1;
-                    }
-                }
-                break;
-
-            case 1:
-                {
-                    //左に動く
-                    rb.velocity = new Vector2(-2.0f, rb.velocity.y);
-
-                    // プレイヤーと自分の X 相対値（絶対）
-                    float horizontalDistance = Mathf.Abs(player.transform.position.x - this.transform.position.x);
-
-                    // プレイヤーと自分の Y 軸相対距離（絶対値）
-                    float verticalDistance = Mathf.Abs(player.transform.position.y - this.transform.position.y);
-
 
                     // プレイヤーが近いか？
                     if (horizontalDistance < 2.0f && verticalDistance < 2.0f)
@@ -132,6 +96,53 @@ public class MonstorStateController : MonoBehaviour
                         //右を向く
                         transform.localScale = new Vector3(1.5f, 1.5f, 0.0f);
 
+                        //状態を1にする（次）
+                        stateNumber = 1;
+                    }
+                }
+                break;
+
+            case 1:
+                {
+                    //右に動く
+                    rb.velocity = new Vector2(2.0f, rb.velocity.y);
+
+                    // プレイヤーと自分の X 相対値（絶対）
+                    float horizontalDistance = Mathf.Abs(player.transform.position.x - this.transform.position.x);
+
+                    // プレイヤーと自分の Y 軸相対距離（絶対値）
+                    float verticalDistance = Mathf.Abs(player.transform.position.y - this.transform.position.y);
+
+
+                    // プレイヤーが近いか？
+                    if (horizontalDistance < 2.0f && verticalDistance < 2.0f)
+                    {
+                        //クリア
+                        timeCounter = 0.0f;
+
+                        // 動きを止める
+                        rb.velocity = Vector2.zero;
+
+                        //攻撃アニメーション
+                        animator.SetTrigger("Attack");
+
+                        // 左向きの攻撃プレファブを生成
+                        GameObject attack = Instantiate(monsterAttackPrefabRight);
+                        attack.transform.position = this.transform.position + new Vector3(0.3f, 0.5f, 0.0f);
+
+                        //状態を2にする（攻撃）
+                        stateNumber = 2;
+                    }
+
+                    //１秒経過したか？
+                    if (timeCounter > 1.0f)
+                    {
+                        //クリア
+                        timeCounter = 0.0f;
+
+                        //左を向く
+                        transform.localScale = new Vector3(-1.5f, 1.5f, 0.0f);
+
                         //状態を0にする（ループ）
                         stateNumber = 0;
                     }
@@ -151,13 +162,13 @@ public class MonstorStateController : MonoBehaviour
                         //向きを調べる
                         if (this.transform.localScale.x > 0.0f)
                         {
-                            //状態を0にする（右移動ループ）
-                            stateNumber = 0;
+                            //状態を0にする（左移動ループ）
+                            stateNumber = 1;
                         }
                         else
                         {
-                            //状態を1にする（左移動ループ）
-                            stateNumber = 1;
+                            //状態を1にする（右移動ループ）
+                            stateNumber = 0;
                         }
                     }
                 }
@@ -183,6 +194,9 @@ public class MonstorStateController : MonoBehaviour
 
             // 動きを完全に停止
             //rb.isKinematic = true;
+
+            //プレイヤーが管理している敵カウンターを減らす
+            player.GetComponent<TopDownCharacterController>().enemyCounter--;
 
             // オブジェクトを削除（0.5秒後に）
             Destroy(gameObject, 0.5f);

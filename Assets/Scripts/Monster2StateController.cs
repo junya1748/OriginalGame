@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonstorStateController : MonoBehaviour
+public class Monster2StateController : MonoBehaviour
 {
     //アニメーター
     Animator animator;
@@ -39,6 +39,17 @@ public class MonstorStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // プレイヤーのスクリプトからHPを取得する
+        TopDownCharacterController playerController = player.GetComponent<TopDownCharacterController>();
+
+        // プレイヤーが死亡したら、モンスターの行動を停止する
+        if (playerController != null && playerController.playerHP <= 0)
+        {
+            // モンスターの行動を停止する
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
         //タイム計測
         timeCounter += Time.deltaTime;
 
@@ -76,7 +87,7 @@ public class MonstorStateController : MonoBehaviour
                         stateNumber = 2;
                     }
 
-                    //１秒経過したか？
+                    //1秒経過したか？
                     if (timeCounter > 1.0f)
                     {
                         //クリア
@@ -123,7 +134,7 @@ public class MonstorStateController : MonoBehaviour
                         stateNumber = 2;
                     }
 
-                    //１秒経過したか？
+                    //1秒経過したか？
                     if (timeCounter > 1.0f)
                     {
                         //クリア
@@ -183,6 +194,9 @@ public class MonstorStateController : MonoBehaviour
 
             // 動きを完全に停止
             //rb.isKinematic = true;
+
+            //プレイヤーが管理している敵カウンターを減らす
+            player.GetComponent<TopDownCharacterController>().enemyCounter--;
 
             // オブジェクトを削除（0.5秒後に）
             Destroy(gameObject, 0.5f);
