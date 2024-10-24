@@ -23,6 +23,9 @@ public class Monster2StateController : MonoBehaviour
     public GameObject monsterAttackPrefabLeft;
     public GameObject monsterAttackPrefabRight;
 
+    //終了
+    private bool isEnd = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +42,7 @@ public class Monster2StateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // プレイヤーのスクリプトからHPを取得する
+        // プレイヤーのスクリプトを取得する
         TopDownCharacterController playerController = player.GetComponent<TopDownCharacterController>();
 
         // プレイヤーが死亡したら、モンスターの行動を停止する
@@ -181,7 +184,7 @@ public class Monster2StateController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 衝突したオブジェクトが "AttackTag" タグを持つ場合
-        if (collision.gameObject.CompareTag("AttackTag"))
+        if (collision.gameObject.CompareTag("AttackTag") && isEnd == false)
         {
             // 死亡アニメーション
             animator.SetTrigger("Death");
@@ -194,6 +197,9 @@ public class Monster2StateController : MonoBehaviour
 
             // 動きを完全に停止
             //rb.isKinematic = true;
+
+            //死んだ
+            isEnd = true;
 
             //プレイヤーが管理している敵カウンターを減らす
             player.GetComponent<TopDownCharacterController>().enemyCounter--;

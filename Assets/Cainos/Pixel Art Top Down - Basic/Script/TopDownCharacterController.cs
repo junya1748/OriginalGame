@@ -20,8 +20,29 @@ using UnityEngine.UI;
         //敵の数
         public int enemyCounter;
 
-        //ゲーム終了時に表示するテキスト（追加）
+        //ゲーム終了時に表示するテキスト
         private GameObject stateText;
+
+        // 通常BGMのための AudioSource
+        private AudioSource bgmAudioSource;
+
+        // クリアBGMのための AudioSource
+        private AudioSource clearBgmAudioSource;
+
+        // 攻撃サウンドのための AudioSource
+        private AudioSource audioSource;
+
+        // 通常BGMの AudioClip
+        public AudioClip normalBGM;
+
+        // クリアBGMの AudioClip
+        public AudioClip clearBGM;
+
+        // 攻撃サウンドの AudioClip
+        public AudioClip attackSound;
+
+        // ダメージを受けた時のサウンド
+        public AudioClip damageSound;
 
         private void Start()
         {
@@ -31,8 +52,24 @@ using UnityEngine.UI;
             //１階層下のAnimatorを取得
             animator = this.transform.Find("UnitRoot").gameObject.GetComponent<Animator>();
 
+            // 通常BGM用の AudioSource コンポーネントを取得または追加
+            bgmAudioSource = gameObject.AddComponent<AudioSource>();
+            bgmAudioSource.loop = true;
+            bgmAudioSource.clip = normalBGM;
+
+            // クリアBGM用の AudioSource を追加
+            clearBgmAudioSource = gameObject.AddComponent<AudioSource>();
+            clearBgmAudioSource.loop = true;
+
+
+            // AudioSource コンポーネントを取得
+            audioSource = GetComponent<AudioSource>();
+
             //シーン中のstateTextオブジェクトを取得
             this.stateText = GameObject.Find("GameResultText");
+
+            // 通常のBGMを再生開始
+            bgmAudioSource.Play();
         }
 
 
@@ -45,6 +82,20 @@ using UnityEngine.UI;
 
                 //stateTextにGAME CLEARを表示
                 this.stateText.GetComponent<Text>().text = "CLEAR!!";
+
+                // 通常BGMが再生中なら停止して、クリアBGMを再生
+                if (bgmAudioSource.isPlaying)
+                {
+                    bgmAudioSource.Stop();  // 通常BGMを停止
+                }
+
+                if (!clearBgmAudioSource.isPlaying && clearBGM != null)
+                {
+                    clearBgmAudioSource.clip = clearBGM;
+                    clearBgmAudioSource.Play();  // クリアBGMを再生
+                }
+
+                return;  // ゲームクリア後は操作を無効にするため、処理をここで終了
             }
             
             //プレイヤーが生きている
@@ -96,6 +147,12 @@ using UnityEngine.UI;
                     //攻撃
                     animator.SetTrigger("Attack");
 
+                    // 攻撃音を再生
+                    if (audioSource != null && attackSound != null)
+                    {
+                        audioSource.PlayOneShot(attackSound);
+                    }
+                   
                     //向きを調べる
                     if (this.transform.localScale.x > 0.0f)
                     {
@@ -114,7 +171,6 @@ using UnityEngine.UI;
                 }
             }
         }
-
         // 敵と衝突した時の処理
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -153,6 +209,12 @@ using UnityEngine.UI;
             if (collision.gameObject.CompareTag("MonsterAttackTag"))
             {
                 playerHP -= 1;  // HPを1減らす
+
+                // 攻撃を受けた時の効果音を再生
+                if (audioSource != null && damageSound != null)
+                {
+                    audioSource.PlayOneShot(damageSound);
+                }
 
                 // HPが0になったらプレイヤーが死亡
                 if (playerHP <= 0)

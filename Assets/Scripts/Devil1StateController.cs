@@ -23,6 +23,9 @@ public class Devil1StateController : MonoBehaviour
     public GameObject monsterAttackPrefabLeft;
     public GameObject monsterAttackPrefabRight;
 
+    //終了
+    private bool isEnd = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -202,7 +205,7 @@ public class Devil1StateController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 衝突したオブジェクトが "AttackTag" タグを持つ場合
-        if (collision.gameObject.CompareTag("AttackTag"))
+        if (collision.gameObject.CompareTag("AttackTag") && isEnd == false)
         {
             // 死亡アニメーション
             animator.SetTrigger("Death");
@@ -215,6 +218,9 @@ public class Devil1StateController : MonoBehaviour
 
             // 動きを完全に停止
             //rb.isKinematic = true;
+
+            //死んだ
+            isEnd = true;
 
             //プレイヤーが管理している敵カウンターを減らす
             player.GetComponent<TopDownCharacterController>().enemyCounter--;
